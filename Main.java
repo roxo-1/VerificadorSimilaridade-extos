@@ -37,7 +37,7 @@ public class Main {
                 }
                 
             }
-                System.out.println("Arquivo 'documento.txt' criado com sucesso!");
+                // System.out.println("Arquivo 'documento.txt' criado com sucesso!");
             } catch (IOException e) {
                 System.err.println("Erro ao criar o arquivo: " + e.getMessage());
             }
@@ -52,6 +52,86 @@ public class Main {
                 }
             }
             // arvore.imprimirEmOrdem();
+
+             int totalPares = (arquivos.length * (arquivos.length - 1)) / 2;
+            System.out.println("Total de pares comparados: " + totalPares);
+            System.out.println("Função hash utilizada: hashMultiplicativo");
+            System.out.println("Métrica de similaridade: Jaccard");
+            System.out.println("Pares com similaridade >= " + limiar + ":");
+            System.out.println("---------------------------------");
+
+            double maior = 0.0;
+            double menor = 1.0;
+            String parMaior = "";
+            String parMenor = "";
+
+            // =====================
+            // Colocar aqui o código
+            // =====================
+            for (int i = 0; i < arquivos.length; i++) {
+                for (int j = i + 1; j < arquivos.length; j++) {
+                    double sim = ComparadorDeDocumentos.jaccard(tabelas[i], tabelas[j]);
+
+                    if (sim >= limiar) {
+                        System.out.printf("%s <-> %s = %.2f\n", arquivos[i].getName(), arquivos[j].getName(), sim);
+                    }
+
+                    // Guarda os maiores/menores
+                    if (sim > maior) {
+                        maior = sim;
+                        parMaior = arquivos[i].getName() + " <-> " + arquivos[j].getName();
+                    }
+                    if (sim < menor) {
+                        menor = sim;
+                        parMenor = arquivos[i].getName() + " <-> " + arquivos[j].getName();
+                    }
+                }
+            }
+
+            // Mostrar o par com menor similaridade
+            System.out.println("Pares com menor similaridade:");
+            System.out.println("---------------------------------");
+            System.out.printf("%s = %.2f\n", parMenor, menor);
+
+            
+            //começo do arquivo resultado.txt
+             StringBuilder relatorio = new StringBuilder();
+
+            // Cabeçalho
+            relatorio.append("=== VERIFICADOR DE SIMILARIDADE DE TEXTOS ===\n");
+            relatorio.append("Total de documentos processados: ").append(arquivos.length).append("\n");
+
+            relatorio.append("Total de pares comparados: ").append(totalPares).append("\n");
+            relatorio.append("Função hash utilizada: hashMultiplicativo\n");
+            relatorio.append("Métrica de similaridade: Jaccard\n");
+            relatorio.append("Pares com similaridade >= ").append(limiar).append(":\n");
+            relatorio.append("---------------------------------\n");
+
+        
+
+            for (int i = 0; i < arquivos.length; i++) {
+                for (int j = i + 1; j < arquivos.length; j++) {
+                    double sim = ComparadorDeDocumentos.jaccard(tabelas[i], tabelas[j]);
+
+                    if (sim >= limiar) {
+                        relatorio.append(String.format("%s <-> %s = %.2f\n", arquivos[i].getName(), arquivos[j].getName(), sim));
+                    }
+
+                    if (sim > maior) {
+                        maior = sim;
+                        parMaior = arquivos[i].getName() + " <-> " + arquivos[j].getName();
+                    }
+                    if (sim < menor) {
+                        menor = sim;
+                        parMenor = arquivos[i].getName() + " <-> " + arquivos[j].getName();
+                    }
+                }
+            }
+
+            relatorio.append("Pares com menor similaridade:\n");
+            relatorio.append("---------------------------------\n");
+            relatorio.append(String.format("%s = %.2f\n", parMenor, menor));
+
 
         // ======================
         // MODO: LISTA
@@ -116,6 +196,14 @@ public class Main {
 
         }else {
             System.out.println("Modo inválido! Use 'lista' ou 'topk'.");
+        }
+
+         // Mostra no console
+        // System.out.print(relatorio.toString());
+
+        // Salva em arquivo resultado.txt
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("resultado.txt"), "UTF-8"))) {
+            writer.write(relatorio.toString());
         }
     }
 }

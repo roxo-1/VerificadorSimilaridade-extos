@@ -1,0 +1,12 @@
+=== VERIFICADOR DE SIMILARIDADE DE TEXTOS ===
+Total de documentos processados: 4
+Total de pares comparados: 6
+Função hash utilizada: hashMultiplicativo
+Métrica de similaridade: Jaccard
+Pares com similaridade >= 0.1:
+---------------------------------
+texto1.txt <-> texto3.txt = 0.13
+texto4.txt <-> texto2.txt = 0.29
+Pares com menor similaridade:
+---------------------------------
+texto4.txt <-> texto3.txt = 0.04

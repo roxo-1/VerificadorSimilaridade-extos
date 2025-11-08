@@ -52,7 +52,7 @@ public class HashTable {
         return false;
     }
 
-    public int get(String chave) {
+    public int getString(String chave) {
         int indice = hash(chave);
         Node atual = tabela[indice];
         while (atual != null) {

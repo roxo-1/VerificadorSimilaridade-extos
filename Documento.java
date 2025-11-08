@@ -33,9 +33,9 @@ public class Documento {
         // === Escrever as palavras e frequências no arquivo ===
         try (FileWriter writer = new FileWriter("documento.txt")) {
             String[] chaves = tabela.getKeys();
-
+            
             for (String chave : chaves) {
-                int freq = tabela.get(chave);
+                int freq = tabela.getString(chave);
                 writer.write("(" + chave + ", " + freq + ")\n");
             }
 

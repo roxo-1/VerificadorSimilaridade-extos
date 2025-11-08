@@ -1,6 +1,8 @@
 import java.io.*;
 
 public class Main {
+    
+
     public static void main(String[] args) throws IOException {
         if (args.length < 3) {
             System.out.println("Uso: java Main <diretorio_documentos> <limiar> <modo> [argumentos_opcionais]");
@@ -21,7 +23,24 @@ public class Main {
         HashTable[] tabelas = new HashTable[arquivos.length];
         for (int i = 0; i < arquivos.length; i++) {
             tabelas[i] = ComparadorDeDocumentos.lerArquivo(arquivos[i].getAbsolutePath());
+            
         }
+        // === Escrever as palavras e frequências no arquivo ===
+        try (FileWriter writer = new FileWriter("documento.txt")) {
+            for (int i = 0; i < tabelas.length; i++) {
+                String[] chaves = tabelas[i].getKeys();
+                writer.write("---------Tabela "+ i +"----------\n");
+                
+                for (String chave : chaves) {
+                    int freq = tabelas[i].getString(chave);
+                    writer.write("(" + chave + ", " + freq + ")\n");
+                }
+                
+            }
+                System.out.println("Arquivo 'documento.txt' criado com sucesso!");
+            } catch (IOException e) {
+                System.err.println("Erro ao criar o arquivo: " + e.getMessage());
+            }
 
         // ======================
         // MODO: LISTA

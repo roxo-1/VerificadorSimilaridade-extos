@@ -51,7 +51,7 @@ public class Main {
                     valoresJaccard[i] = sim;
                 }
             }
-            arvore.imprimirEmOrdem();
+            // arvore.imprimirEmOrdem();
 
         // ======================
         // MODO: LISTA
@@ -60,9 +60,8 @@ public class Main {
             System.out.println("=== Comparações acima do limiar (" + limiar + ") ===");
             for (int i = 0; i < arquivos.length; i++) {
                 for (int j = i + 1; j < arquivos.length; j++) {
-                    double sim = ComparadorDeDocumentos.jaccard(tabelas[i], tabelas[j]);
-                    if (sim >= limiar) {
-                        System.out.printf("%s ↔ %s = %.3f\n", arquivos[i].getName(), arquivos[j].getName(), sim);
+                    if (valoresJaccard[i] >= limiar) {
+                        System.out.printf("%s ↔ %s = %.3f\n", arquivos[i].getName(), arquivos[j].getName(), valoresJaccard[i]);
                     }
                 }
             }
@@ -104,7 +103,18 @@ public class Main {
             }
         }
 
-        else {
+        // ======================
+        // MODO: BUSCA
+        // ======================
+        else if (modo.equals("busca")) {
+            if (args.length < 5) {
+                System.out.println("Erro: no modo 'busca' é necessário informar o nome dos arquivos (ex: java Main <dir> <limiar> busca texto1.txt texto2.txt)");
+                return;
+            }
+            
+            arvore.buscarPar(args[3], args[4]);
+
+        }else {
             System.out.println("Modo inválido! Use 'lista' ou 'topk'.");
         }
     }

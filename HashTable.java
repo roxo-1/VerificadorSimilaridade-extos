@@ -52,6 +52,16 @@ public class HashTable {
         return false;
     }
 
+    public int get(String chave) {
+        int indice = hash(chave);
+        Node atual = tabela[indice];
+        while (atual != null) {
+            if (atual.key.equals(chave)) return atual.value;
+            atual = atual.next;
+        }
+        return 0;
+    }
+
     public String[] getKeys() {
         int count = 0;
         for (Node bucket : tabela) {

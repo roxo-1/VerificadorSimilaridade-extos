@@ -41,6 +41,17 @@ public class Main {
             } catch (IOException e) {
                 System.err.println("Erro ao criar o arquivo: " + e.getMessage());
             }
+            // Faz a comparação de similaridade usando o calculo de Jaccard
+            double[] valoresJaccard = new double[arquivos.length * arquivos.length];
+            AVLTree arvore = new AVLTree();
+            for (int i = 0; i < arquivos.length; i++) {
+                for (int j = i + 1; j < arquivos.length; j++) {
+                    double sim = ComparadorDeDocumentos.jaccard(tabelas[i], tabelas[j]);
+                    arvore.inserir(new Resultado(arquivos[i].getName(), arquivos[j].getName(), sim));
+                    valoresJaccard[i] = sim;
+                }
+            }
+            arvore.imprimirEmOrdem();
 
         // ======================
         // MODO: LISTA
@@ -67,7 +78,7 @@ public class Main {
             }
 
             int quantidade = Integer.parseInt(args[3]);
-            double[] valoresJaccard = new double[arquivos.length * arquivos.length];
+            //double[] valoresJaccard = new double[arquivos.length * arquivos.length];
             String[] comparacoes = new String[arquivos.length * arquivos.length];
             int indice = 0;
 

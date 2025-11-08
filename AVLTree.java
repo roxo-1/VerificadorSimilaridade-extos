@@ -54,11 +54,10 @@ public class AVLTree {
         if (fb > 1) {
             if(node.esquerda!= null){
               //Caso 1.1
-                if ((fatorBalanceamento(node.esquerda) >= 0) && (fatorBalanceamento(node.esquerda.esquerda) >= 0)) {
+                if (fatorBalanceamento(node.esquerda) >= 0) {
                     rotacoesSimplesDireita++;
                     return rotacaoDireita(node);
-                } 
-                else if ((fatorBalanceamento(node.esquerda)>= 0) && (fatorBalanceamento(node.esquerda.direita) < 0)) {// Caso 1.2
+                } else {// Caso 1.2
                     rotacoesDuplasDireita++;
                     node.esquerda = rotacaoEsquerda(node.esquerda);
                     return rotacaoDireita(node);
@@ -70,11 +69,10 @@ public class AVLTree {
         if (fb < -1) {
             if(node.direita!=null){
                 // Caso 2.1
-                if ((fatorBalanceamento(node.direita) <= 0) && (fatorBalanceamento(node.direita.esquerda) >= 0)) {
+                if (fatorBalanceamento(node.direita) <= 0) {
                     rotacoesSimplesEsquerda++;
                     return rotacaoEsquerda(node);
-                } 
-                else if((fatorBalanceamento(node.direita) <= 0) && (fatorBalanceamento(node.direita.direita) < 0)) {//Caso 2.2
+                }else {//Caso 2.2
                     rotacoesDuplasEsquerda++;
                     node.direita = rotacaoDireita(node.direita);
                     return rotacaoEsquerda(node);
@@ -215,7 +213,7 @@ public class AVLTree {
         }
     }
     // Dentro da classe AVLTree
-    /*public void imprimirHierarquica() {
+    public void imprimirHierarquica() {
         System.out.println("=== Árvore AVL (hierárquica) ===");
         imprimirHierarquica(raiz, "", true);
     }
@@ -227,7 +225,7 @@ public class AVLTree {
             imprimirHierarquica(node.direita, prefixo + (ehUltimo ? "    " : "│   "), true);
         }
     }
-*/
+
 
     public void imprimirContagemRotacoes() {
         System.out.println("Rot. simples à esquerda: " + rotacoesSimplesEsquerda);
@@ -262,8 +260,5 @@ public class AVLTree {
 
         System.out.println("\n=== Contagem de rotações ===");
         arvore.imprimirContagemRotacoes();
-
-        /*arvore.imprimirEmOrdem();
-        arvore.imprimirHierarquica();*/
     }
 }

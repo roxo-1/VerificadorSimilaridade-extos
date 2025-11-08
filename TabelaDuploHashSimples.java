@@ -1,5 +1,5 @@
 public class TabelaDuploHashSimples {
-    private static final int TAMANHO = 11; // número primo
+    private static final int TAMANHO = 101; // número primo
     private String[] chaves;
     private int[] valores;
 
@@ -64,6 +64,14 @@ public class TabelaDuploHashSimples {
                     chaves[i] == null ? "—" : valores[i]);
         }
         System.out.println();
+    }
+
+    public String[] getChaves() {
+        return chaves;
+    }
+
+    public int[] getValores() {
+        return valores;
     }
 
     public static void main(String[] args) {

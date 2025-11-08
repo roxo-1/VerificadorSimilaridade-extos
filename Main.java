@@ -158,7 +158,7 @@ public class Main {
         // ======================
         // Modo SIMPLES
         // ======================
-        if (modo.equals("simples")) {
+        if (modo.equals("lista")) {
             System.out.println("=== Comparações acima do limiar (" + limiar + ") ===");
             for (int i = 0; i < arquivos.length; i++) {
                 for (int j = i + 1; j < arquivos.length; j++) {
@@ -176,24 +176,37 @@ public class Main {
         // ======================
         // Modo TABELA
         // ======================
-        else if (modo.equals("tabela")) {
-            System.out.print("         ");
-            for (File a : arquivos) System.out.printf("%12s", a.getName());
-            System.out.println();
+        else if (modo.equals("topk")) {
+            int quantidade = Integer.parseInt(args[3]);
+            double[] valoresJaccard = new double[arquivos.length * arquivos.length];
+            String[] comparacoes = new String[arquivos.length * arquivos.length];
+            int indice = 0;
 
             for (int i = 0; i < arquivos.length; i++) {
-                System.out.printf("%-10s", arquivos[i].getName());
-                for (int j = 0; j < arquivos.length; j++) {
-                    if (i == j) {
-                        System.out.printf("%12s", "—");
-                    } else {
-                        double sim = jaccard(tabelas[i], tabelas[j]);
-                        String valor = sim >= limiar ? String.format("%.2f", sim) : "0.00";
-                        System.out.printf("%12s", valor);
-                    }
+                for (int j = i + 1; j < arquivos.length; j++) {
+                    double sim = jaccard(tabelas[i], tabelas[j]);
+                    valoresJaccard[indice] = sim;
+                    comparacoes[indice] = arquivos[i].getName() + " ↔ " + arquivos[j].getName();
+                    indice++;
                 }
-                System.out.println();
             }
+
+            // Ordenar e exibir os 'quantidade' maiores valores
+            System.out.println("\n=== Os " + quantidade + " maiores valores de similaridade ===");
+
+            // Cria um array de índices para ordenar sem perder as comparações
+            Integer[] indices = new Integer[indice];
+            for (int k = 0; k < indice; k++) indices[k] = k;
+
+            // Ordena os índices com base nos valores de Jaccard (do maior para o menor)
+            java.util.Arrays.sort(indices, (a, b) -> Double.compare(valoresJaccard[b], valoresJaccard[a]));
+
+            // Exibe os 'quantidade' maiores
+            for (int k = 0; k < Math.min(quantidade, indice); k++) {
+                int idx = indices[k];
+                System.out.printf("%s = %.3f\n", comparacoes[idx], valoresJaccard[idx]);
+            }
+
         } else {
             System.out.println("Modo inválido! Use 'simples' ou 'tabela'.");
         }

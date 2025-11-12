@@ -233,32 +233,4 @@ public class AVLTree {
         System.out.println("Rot. dupla à esquerda:   " + rotacoesDuplasEsquerda);
         System.out.println("Rot. dupla à direita:    " + rotacoesDuplasDireita);
     }
-    //para testar, tirar depois
-    public static void main(String[] args) {
-        AVLTree arvore = new AVLTree();
-
-        // Inserindo alguns exemplos de Resultado
-        arvore.inserir(new Resultado("A.txt", "B.txt", 0.45f));
-        arvore.inserir(new Resultado("A.txt", "C.txt", 0.67f));
-        arvore.inserir(new Resultado("B.txt", "C.txt", 0.33f));
-        arvore.inserir(new Resultado("D.txt", "E.txt", 0.75f));
-        arvore.inserir(new Resultado("F.txt", "G.txt", 0.10f));
-        arvore.inserir(new Resultado("G.txt", "H.txt", 0.92f));
-        arvore.inserir(new Resultado("I.txt", "J.txt", 0.88f));
-
-        System.out.println("=== Impressão em ordem (FBs) ===");
-        arvore.imprimirEmOrdem();
-
-        System.out.println("\n=== Top 3 mais semelhantes ===");
-        arvore.topK(3);
-
-        System.out.println("\n=== Busca por (A.txt, C.txt) ===");
-        arvore.buscarPar("A.txt", "C.txt");
-
-        System.out.println("\n=== Resultados acima de 0.5 ===");
-        arvore.listarAcimaDoLimiar(0.5f);
-
-        System.out.println("\n=== Contagem de rotações ===");
-        arvore.imprimirContagemRotacoes();
-    }
 }

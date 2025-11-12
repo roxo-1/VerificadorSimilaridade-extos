@@ -1,6 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
+
 
 public class Documento {
 
@@ -9,39 +12,28 @@ public class Documento {
         "a","o","e","de","do","da","em","um","uma","que","com","para","por",
         "na","no","as","os","se","ao","à","dos","das","é","são","foi"
     );
+    // Lê um arquivo e cria uma HashTable com as palavras
+    public static HashTable lerArquivo(String caminho) throws IOException {
+        BufferedReader leitor = new BufferedReader(new FileReader(caminho));
+        HashTable tabela = new HashTable(1009);
 
-    public static void main(String[] args) {
-        // === Texto de exemplo (pode ser substituído por qualquer entrada) ===
-        String texto = "ChatGPT é muito útil. ChatGPT ajuda a aprender Java e estruturas de dados. "
-                     + "Java é uma linguagem poderosa e útil.";
-
-        // Cria a tabela hash
-        HashTable tabela = new HashTable(50);
-
-        // === Pré-processamento ===
-        String[] palavras = texto
-                .toLowerCase()
-                .replaceAll("[^a-zà-ú0-9 ]", "") // remove pontuação
-                .split("\\s+"); // separa por espaços
-
-        for (String p : palavras) {
+        String linha;
+        while ((linha = leitor.readLine()) != null) {
+            String[] palavras = linha.toLowerCase()
+                .replaceAll("[^a-záéíóúàâêôãõç]", " ")
+                .split("\\s+");
+            // for (String p : palavras) {
+            //     if (!p.isEmpty()) tabela.put(p, 1);
+            // }
+             for (String p : palavras) {
             if (!p.isEmpty() && !STOP_WORDS.contains(p)) {
                 tabela.put(p, 1); // insere palavra na tabela
             }
         }
-
-        // === Escrever as palavras e frequências no arquivo ===
-        try (FileWriter writer = new FileWriter("documento.txt")) {
-            String[] chaves = tabela.getKeys();
-            
-            for (String chave : chaves) {
-                int freq = tabela.getString(chave);
-                writer.write("(" + chave + ", " + freq + ")\n");
-            }
-
-            System.out.println("Arquivo 'documento.txt' criado com sucesso!");
-        } catch (IOException e) {
-            System.err.println("Erro ao criar o arquivo: " + e.getMessage());
         }
+        
+        
+        leitor.close();
+        return tabela;
     }
 }

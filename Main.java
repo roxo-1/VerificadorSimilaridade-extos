@@ -22,7 +22,7 @@ public class Main {
         // Lê todos os arquivos em tabelas
         HashTable[] tabelas = new HashTable[arquivos.length];
         for (int i = 0; i < arquivos.length; i++) {
-            tabelas[i] = ComparadorDeDocumentos.lerArquivo(arquivos[i].getAbsolutePath());
+            tabelas[i] = Documento.lerArquivo(arquivos[i].getAbsolutePath());
             
         }
         // === Escrever as palavras e frequências no arquivo ===
